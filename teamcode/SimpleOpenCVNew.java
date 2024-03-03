@@ -37,212 +37,239 @@ public class SimpleOpenCVNew extends OpMode {
     public void start() {
         //visionPortal.stopStreaming();
     }
-
+    @Override
+    public void stop() {
+        //visionPortal.stopStreaming();
+        //visionPortal.stopStreaming();
+        //requestOpModeStop();
+        //terminateOpModeNow();
+        return;
+    }
 
     @Override
     public void loop() {
         try {
 
+                DrawRectangleProcessor.Selected selection = drawRectangleProcessor.getSelection();
+                MoveRobotEncoder mr = new MoveRobotEncoder(hardwareMap);
 
-            DrawRectangleProcessor.Selected selection = drawRectangleProcessor.getSelection();
-            MoveRobotEncoder mr = new MoveRobotEncoder(hardwareMap);
+                telemetry.addData("Identified", drawRectangleProcessor.getSelection());
+                telemetry.addData("Left", drawRectangleProcessor.satRectLeft);
+                telemetry.addData("Right", drawRectangleProcessor.satRectRight);
+                telemetry.addData("Middle", drawRectangleProcessor.satRectMiddle);
 
-            telemetry.addData("Identified", drawRectangleProcessor.getSelection());
-            telemetry.addData("Left", drawRectangleProcessor.satRectLeft);
-            telemetry.addData("Right", drawRectangleProcessor.satRectRight);
-            telemetry.addData("Middle", drawRectangleProcessor.satRectMiddle);
+                telemetry.update();
 
-            telemetry.update();
+                sleep(1000);
+                selection = drawRectangleProcessor.getSelection();
+                telemetry.addData("Identified", drawRectangleProcessor.getSelection());
+                telemetry.addData("Left", drawRectangleProcessor.satRectLeft);
+                telemetry.addData("Right", drawRectangleProcessor.satRectRight);
+                telemetry.addData("Middle", drawRectangleProcessor.satRectMiddle);
 
-            sleep(1000);
-            selection = drawRectangleProcessor.getSelection();
-            telemetry.addData("Identified", drawRectangleProcessor.getSelection());
-            telemetry.addData("Left", drawRectangleProcessor.satRectLeft);
-            telemetry.addData("Right", drawRectangleProcessor.satRectRight);
-            telemetry.addData("Middle", drawRectangleProcessor.satRectMiddle);
+                telemetry.update();
+                if (drawRectangleProcessor.satRectLeft > 0) {
+                    if (selection == DrawRectangleProcessor.Selected.LEFT) {
 
-            telemetry.update();
-            if(drawRectangleProcessor.satRectLeft > 0) {
-                if (selection == DrawRectangleProcessor.Selected.LEFT) {
+                        mr.encoderDrive(0.4, -3, -3, -3, -3);
 
-                    mr.encoderDrive(MoveRobotEncoder.DRIVE_SPEED, 26, -38, -26, 38);
-                    //forward
-                    mr.encoderDrive(MoveRobotEncoder.DRIVE_SPEED, -26, -26, -26, -26);
-                    //turn
-                    mr.encoderDrive(MoveRobotEncoder.TURN_SPEED, -22, 22, -46, 46);
+                        mr.SetArmPositionTwo(hardwareMap);
 
-                    sleep(1000);
+                        mr.SetWristPositionDown(hardwareMap);
 
-                    mr.SetArmPositionTwo(hardwareMap);
+                        mr.encoderDrive(MoveRobotEncoder.TURN_SPEED, 4, -4, 4, -4);
 
-                    sleep(1000);
+                        mr.encoderDrive(0.4, -22, -22, -22, -22);
 
-                    mr.SetWristPositionDown(hardwareMap);
+                        mr.encoderDrive(0.4, 8, 8, 8, 8);
 
-                    sleep(1000);
+                        mr.SetLeftClawUp(hardwareMap);
 
-                    mr.SetLeftClawUp(hardwareMap);
+                        sleep(1000);
 
-                    sleep(1000);
+                        mr.SetArmPositionThree(hardwareMap);
 
-                    mr.encoderDrive(MoveRobotEncoder.DRIVE_SPEED, 2, 2, 2, 2);
+                        sleep(500);
 
-                    mr.SetWristPositionUp(hardwareMap);
+                        mr.SetWristPositionUp(hardwareMap);
 
-                    sleep(1000);
+                        sleep(500);
 
-                    mr.SetArmPositionDown(hardwareMap);
+                        mr.SetArmPositionDown(hardwareMap);
 
-                    sleep(1000);
+                        mr.encoderDrive(0.4, 8, 8, 8, 8);
 
-                    mr.SetArmPosition(hardwareMap);
+                        mr.encoderDrive(MoveRobotEncoder.TURN_SPEED, -25, 25, -25, 25);
 
-                    sleep(2000);
+                        mr.SetArmPositionFive(hardwareMap);
 
-                    mr.encoderDrive(MoveRobotEncoder.DRIVE_SPEED, -8, 8, 8, -8);
+                        mr.encoderDrive(0.4, 27, 27, 27, 27);
 
-                    mr.encoderDrive(MoveRobotEncoder.DRIVE_SPEED, 14, 14, 14, 14);
+                        mr.encoderDrive(MoveRobotEncoder.DRIVE_SPEED, 14, -14, -14, 14);
 
-                    mr.SetRightClawUp(hardwareMap);
+                        mr.SetArmPosition(hardwareMap);
 
-                    sleep(1000);
+                        sleep(2000);
 
-                    mr.encoderDrive(MoveRobotEncoder.DRIVE_SPEED, -4, -4, -4, -4);
+                        mr.SetRightClawUp(hardwareMap);
 
-                    mr.SetArmPositionDown(hardwareMap);
+                        sleep(1000);
 
-                    sleep(2000);
+                        mr.SetArmPositionDown(hardwareMap);
 
-                    mr.encoderDrive(0.5, -24, 24, 24, -24);
+                        sleep(1000);
 
-                    mr.encoderDrive(0.5, 13, 13, 13, 13);
+                        mr.encoderDrive(0.6, -15, 15, 15, -15);
 
-                    //visionPortal.stopStreaming();
+                        mr.encoderDrive(0.35, 13, 13, 13, 13);
 
+                        double t = 30-getRuntime();
+                        long sleeptime = (long) t*1000;
+                        telemetry.addData("time: ", t);
+                        telemetry.addData("this.time: ", getRuntime());
+                        telemetry.addData("Sleeptime: ", sleeptime);
+                        telemetry.update();
+                        sleep(sleeptime);
+
+
+                    }
+
+                    if (selection == DrawRectangleProcessor.Selected.MIDDLE) {
+
+                        mr.encoderDrive(0.6, -30, -30, -30, -30);
+
+                        mr.encoderDrive(MoveRobotEncoder.DRIVE_SPEED, 5, 5, 5, 5);
+
+                        mr.SetArmPositionTwo(hardwareMap);
+
+                        sleep(1000);
+
+                        mr.SetWristPositionDown(hardwareMap);
+
+                        sleep(1000);
+
+                        mr.SetLeftClawUp(hardwareMap);
+
+                        sleep(1000);
+
+                        mr.SetArmPositionThree(hardwareMap);
+
+                        sleep(1000);
+
+                        mr.SetWristPositionUp(hardwareMap);
+
+                        sleep(500);
+
+                        mr.SetArmPositionDown(hardwareMap);
+
+                        sleep(250);
+
+                        mr.encoderDrive(0.6, 5, 5, 5, 5);
+
+                        mr.encoderDrive(0.35, 29, -29, -29, 29);
+
+                        mr.encoderDrive(0.35, -22, 22, -22, 22);
+
+                        mr.encoderDrive(0.35, 3, -3, -3, 3);
+
+                        mr.SetArmPosition(hardwareMap);
+
+                        sleep(3000);
+
+                        mr.encoderDrive(MoveRobotEncoder.DRIVE_SPEED, 5, 5, 5, 5);
+
+                        sleep(500);
+
+                        mr.SetRightClawUp(hardwareMap);
+
+                        sleep(1000);
+
+                        mr.SetArmPositionDown(hardwareMap);
+
+                        sleep(1000);
+
+                        mr.encoderDrive(0.6, -29, 29, 29, -29);
+
+                        mr.encoderDrive(0.35, 10, 10, 10, 10);
+
+                        double t = 30-getRuntime();
+                        long sleeptime = (long) t*1000;
+                        telemetry.addData("time: ", t);
+                        telemetry.addData("this.time: ", getRuntime());
+                        telemetry.addData("Sleeptime: ", sleeptime);
+                        telemetry.update();
+                        sleep(sleeptime);
+
+                    }
+
+                    if (selection == DrawRectangleProcessor.Selected.RIGHT) {
+
+                        mr.encoderDrive(0.35, -18, -18, -18, -18);
+
+                        mr.SetArmPositionTwo(hardwareMap);
+
+                        mr.SetWristPositionDown(hardwareMap);
+
+                        mr.encoderDrive(MoveRobotEncoder.TURN_SPEED, -10, 10, -10, 10);
+
+                        mr.encoderDrive(0.35, -11, -11, -11, -11);
+
+                        mr.encoderDrive(MoveRobotEncoder.DRIVE_SPEED, 6, 6, 6, 6);
+
+                        mr.SetLeftClawUp(hardwareMap);
+
+                        sleep(500);
+
+                        mr.SetArmPositionThree(hardwareMap);
+
+                        sleep(500);
+
+                        mr.SetWristPositionUp(hardwareMap);
+
+                        sleep(500);
+
+                        mr.SetArmPositionDown(hardwareMap);
+
+                        mr.encoderDrive(MoveRobotEncoder.DRIVE_SPEED, 5, 5, 5, 5);
+
+                        mr.SetArmPositionFive(hardwareMap);
+
+                        mr.encoderDrive(MoveRobotEncoder.TURN_SPEED, -12, 12, -12, 12);
+
+                        mr.encoderDrive(MoveRobotEncoder.DRIVE_SPEED, 15, -15, -15, 15);
+
+                        mr.SetArmPosition(hardwareMap);
+
+                        mr.encoderDrive(0.35, 28, 28, 28, 28);
+
+                        sleep(1500);
+
+                        mr.SetRightClawUp(hardwareMap);
+
+                        sleep(1000);
+
+                        mr.SetArmPositionDown(hardwareMap);
+
+                        sleep(2000);
+
+                        mr.encoderDrive(0.5, -29, 29, 29, -29);
+
+                        mr.encoderDrive(0.35, 10, 10, 10, 10);
+
+                        double t = 30-getRuntime();
+                        long sleeptime = (long) t*1000;
+                        telemetry.addData("time: ", t);
+                        telemetry.addData("this.time: ", getRuntime());
+                        telemetry.addData("Sleeptime: ", sleeptime);
+                        telemetry.update();
+                        sleep(sleeptime);
+                        //visionPortal.stopStreaming();
+
+                    }
                 }
 
-                if (selection == DrawRectangleProcessor.Selected.MIDDLE) {
 
-                    mr.encoderDrive(MoveRobotEncoder.DRIVE_SPEED, 20, -32, -20, 32);
-                    //forward
-                    mr.encoderDrive(MoveRobotEncoder.DRIVE_SPEED, -27, -27, -51, -51);
-                    //turn
-                    mr.encoderDrive(MoveRobotEncoder.TURN_SPEED, -22, 22, -46, 46);
-
-                    mr.encoderDrive(MoveRobotEncoder.DRIVE_SPEED, 10, -10, -10, 10);
-
-                    mr.encoderDrive(MoveRobotEncoder.DRIVE_SPEED, -10, -10, -10, -10);
-
-                    mr.encoderDrive(MoveRobotEncoder.DRIVE_SPEED, 10, 10, 10, 10);
-
-                    sleep(1000);
-
-                    mr.SetArmPositionTwo(hardwareMap);
-
-                    sleep(1000);
-
-                    mr.SetWristPositionDown(hardwareMap);
-
-                    sleep(1000);
-
-                    mr.SetLeftClawUp(hardwareMap);
-
-                    sleep(1000);
-
-                    mr.SetWristPositionUp(hardwareMap);
-
-                    sleep(1000);
-
-                    mr.SetArmPositionDown(hardwareMap);
-
-                    sleep(1000);
-
-                    mr.encoderDrive(MoveRobotEncoder.DRIVE_SPEED, -10, 10, 10, -10);
-
-                    mr.SetArmPosition(hardwareMap);
-
-                    sleep(2000);
-
-                    mr.encoderDrive(MoveRobotEncoder.DRIVE_SPEED, 18, 18, 18, 18);
-
-                    mr.SetLeftClawUp(hardwareMap);
-
-                    mr.SetRightClawUp(hardwareMap);
-
-                    sleep(1000);
-
-                    mr.encoderDrive(MoveRobotEncoder.DRIVE_SPEED, -4, -4, -4, -4);
-
-                    mr.SetArmPositionDown(hardwareMap);
-
-                    sleep(2000);
-
-                    mr.encoderDrive(MoveRobotEncoder.DRIVE_SPEED, -27, 27, 27, -27);
-
-                    mr.encoderDrive(MoveRobotEncoder.DRIVE_SPEED, 13, 13, 13, 13);
-
-                    //visionPortal.stopStreaming();
-
-                }
-
-                if (selection == DrawRectangleProcessor.Selected.RIGHT) {
-
-                    mr.encoderDrive(MoveRobotEncoder.DRIVE_SPEED, -25, -25, -25, -25);
-
-                    mr.encoderDrive(MoveRobotEncoder.TURN_SPEED, -21, 21, -45, 45);
-
-                    sleep(1000);
-
-                    mr.SetArmPositionTwo(hardwareMap);
-
-                    sleep(1000);
-
-                    mr.SetWristPositionDown(hardwareMap);
-
-                    sleep(1000);
-
-                    mr.SetLeftClawUp(hardwareMap);
-
-                    sleep(1000);
-
-                    mr.encoderDrive(MoveRobotEncoder.DRIVE_SPEED, 2, 2, 2, 2);
-
-                    mr.SetWristPositionUp(hardwareMap);
-
-                    sleep(1000);
-
-                    mr.SetArmPositionDown(hardwareMap);
-
-                    sleep(2000);
-
-                    mr.SetArmPosition(hardwareMap);
-
-                    mr.encoderDrive(MoveRobotEncoder.DRIVE_SPEED, 13, -13, -13, 13);
-
-                    sleep(2000);
-
-                    mr.encoderDrive(MoveRobotEncoder.DRIVE_SPEED, 34, 34, 34, 34);
-
-                    mr.SetRightClawUp(hardwareMap);
-
-                    sleep(1000);
-
-                    mr.encoderDrive(MoveRobotEncoder.DRIVE_SPEED, -4, -4, -4, -4);
-
-                    mr.SetArmPositionDown(hardwareMap);
-
-                    sleep(2000);
-
-                    mr.encoderDrive(MoveRobotEncoder.DRIVE_SPEED, -30, 30, 30, -30);
-
-                    mr.encoderDrive(MoveRobotEncoder.DRIVE_SPEED, 13, 13, 13, 13);
-
-                    //visionPortal.stopStreaming();
-
-                }
             }
-
-        }
         catch(Exception ex) {}
 
         }

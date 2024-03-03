@@ -1,14 +1,14 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
-@TeleOp(name = "Android Drive Train12345")
+@TeleOp(name = "Inverse Kinematics 3")
 
 
-public class TeleOpCenterStage extends LinearOpMode {
+public class InverseKinematicsV3 extends LinearOpMode {
 
     private DcMotor leftFront;
     private DcMotor leftBack;
@@ -31,11 +31,11 @@ public class TeleOpCenterStage extends LinearOpMode {
     private final double servoRest = 0.9;
     private final double servoLaunch = 0.5;
 
-    private final double wristDown = 0.6;
+    private final double wristDown = 0.65;
 
     private final double wristDownTwo = 0.15;
 
-    private final double wristUp = 1.0;
+    private final double wristUp = 0.95;
 
     private Servo leftClaw;
 
@@ -94,6 +94,9 @@ public class TeleOpCenterStage extends LinearOpMode {
         rightFront.setDirection(DcMotor.Direction.REVERSE);
         rightBack.setDirection(DcMotor.Direction.REVERSE);
 
+        arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        hanger.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
         telemetry.addData("Status", "Initialized");
         telemetry.update();
         // Wait for the game to start (driver presses PLAY)
@@ -102,76 +105,16 @@ public class TeleOpCenterStage extends LinearOpMode {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
-            lfSpeed = gamepad1.left_stick_y - gamepad1.left_stick_x - gamepad1.right_stick_x;
-            rfSpeed = gamepad1.left_stick_y + gamepad1.left_stick_x + gamepad1.right_stick_x;
-            lbSpeed = gamepad1.left_stick_y + gamepad1.left_stick_x - gamepad1.right_stick_x;
-            rbSpeed = gamepad1.left_stick_y - gamepad1.left_stick_x + gamepad1.right_stick_x;
-
-            leftFront.setPower(lfSpeed * 0.85);
-            leftBack.setPower(lbSpeed * 0.85);
-            rightFront.setPower(rfSpeed * 0.85);
-            rightBack.setPower(rbSpeed * 0.85);
-
             //attachments teleop code below
-
-
-            if (gamepad2.y == true) {
-
-                launch.setPosition(servoLaunch);
-                //leftFront.setPower(0.25);
-
-            } else if (gamepad2.x == true) {
-
-                launch.setPosition(servoRest);
-                //leftFront.setPower(0.0);
-
-            }
-
-            if (gamepad2.dpad_down) {
-
-                wrister.setPosition(wristDown);
-
-            }
-
-                if (gamepad2.dpad_up) {
-
-                    wrister.setPosition(wristUp);
-
-                }
-
-
-                if(gamepad2.dpad_left) {
-
-                    wrister.setPosition(wristDownTwo);
-
-                }
-
-                if (gamepad1.right_trigger > 0.5F) {
-
-
-                    rightClaw.setPosition(rightClawDown);
-
-                } else if (gamepad1.right_bumper) {
-
-                    rightClaw.setPosition(rightClawUp);
-
-                }
-
-                if (gamepad1.left_trigger > 0.5F) {
-
-                    leftClaw.setPosition(leftClawDown);
-
-                } else if (gamepad1.left_bumper) {
-
-                    leftClaw.setPosition(leftClawUp);
-
-                }
 
                 hanger.setPower(-gamepad2.right_stick_y * 0.6);
                 arm.setPower(-gamepad2.right_stick_y * 0.6);
 
-                hanger.setPower(-gamepad2.left_stick_y * 0.95);
-                arm.setPower(-gamepad2.left_stick_y * 0.95);
+            /*if (arm.getCurrentPosition() < 2100 && hanger.getCurrentPosition() < 2100) {
+
+                wrister.setPosition(0.95);
+
+            }*/
 
                 telemetry.addData("Status", "Running");
                 telemetry.addData("Arm Position:", arm.getCurrentPosition());

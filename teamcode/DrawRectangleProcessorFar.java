@@ -1,7 +1,9 @@
 package org.firstinspires.ftc.teamcode;
+
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+
 import org.firstinspires.ftc.robotcore.internal.camera.calibration.CameraCalibration;
 import org.firstinspires.ftc.vision.VisionProcessor;
 import org.opencv.core.Core;
@@ -9,10 +11,11 @@ import org.opencv.core.Mat;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
-public class DrawRectangleProcessor implements VisionProcessor {
+
+public class DrawRectangleProcessorFar implements VisionProcessor {
 public Rect rectLeft = new Rect(110, 400, 55, 65);
 public Rect rectMiddle = new Rect(50, 20, 150, 150);
-public Rect rectRight = new Rect(430, 60, 150, 150);
+public Rect rectRight = new Rect(470, 30, 150, 150);
 Selected selection = Selected.NONE;
 
     public double satRectLeft ;

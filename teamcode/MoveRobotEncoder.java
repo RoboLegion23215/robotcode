@@ -28,6 +28,8 @@ public class MoveRobotEncoder extends Thread {
     private Servo leftClaw;
 
     private Servo rightClaw;
+
+    private Servo launch;
     int target;
 
     static final double COUNTS_PER_MOTOR_REV = 537.7;
@@ -142,11 +144,11 @@ public class MoveRobotEncoder extends Thread {
         hanger = hardwareMap.get(DcMotor.class, "hanger");
         wrister = hardwareMap.get(Servo.class, "wrister");
 
-        arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        hanger.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        wrister.setPosition(1.0);
+        /*arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        hanger.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);*/
+        //wrister.setPosition(0.95);
 
-        target = 1900;
+        target = 2000;
         arm.setTargetPosition(target);
         arm.setPower(0.25);
         arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -163,7 +165,7 @@ public class MoveRobotEncoder extends Thread {
         arm = hardwareMap.get(DcMotor.class, "arm");
         hanger = hardwareMap.get(DcMotor.class, "hanger");
 
-        target = 300;
+        target = 350;
         arm.setTargetPosition(target);
         arm.setPower(0.25);
         arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -173,6 +175,62 @@ public class MoveRobotEncoder extends Thread {
         hanger.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
 
+
+    }
+
+    public void Plane(final HardwareMap hardwareMap) {
+
+        launch = hardwareMap.get(Servo.class, "launcher");
+
+        launch.setPosition(1.0);
+
+    }
+
+    public void SetArmPositionThree(final HardwareMap hardwareMap) {
+
+        arm = hardwareMap.get(DcMotor.class, "arm");
+        hanger = hardwareMap.get(DcMotor.class, "hanger");
+
+        target = 550;
+        arm.setTargetPosition(target);
+        arm.setPower(0.25);
+        arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        hanger.setTargetPosition(target);
+        hanger.setPower(0.25);
+        hanger.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+    }
+
+    public void SetArmPositionFour(final HardwareMap hardwareMap) {
+
+        arm = hardwareMap.get(DcMotor.class, "arm");
+        hanger = hardwareMap.get(DcMotor.class, "hanger");
+
+        target = 200;
+        arm.setTargetPosition(target);
+        arm.setPower(0.25);
+        arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        hanger.setTargetPosition(target);
+        hanger.setPower(0.25);
+        hanger.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+    }
+
+    public void SetArmPositionFive(final HardwareMap hardwareMap) {
+
+        arm = hardwareMap.get(DcMotor.class, "arm");
+        hanger = hardwareMap.get(DcMotor.class, "hanger");
+
+        target = 700;
+        arm.setTargetPosition(target);
+        arm.setPower(0.25);
+        arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        hanger.setTargetPosition(target);
+        hanger.setPower(0.25);
+        hanger.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
     }
 
@@ -205,7 +263,7 @@ public class MoveRobotEncoder extends Thread {
 
         wrister = hardwareMap.get(Servo.class, "wrister");
 
-        wrister.setPosition(0.15);
+        wrister.setPosition(0.25);
 
     }
 

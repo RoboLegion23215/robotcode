@@ -1,14 +1,14 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
-@TeleOp(name = "Android Drive Train12345")
+@TeleOp(name = "IK 6")
 
 
-public class TeleOpCenterStage extends LinearOpMode {
+public class InverseKinematicsV6 extends LinearOpMode {
 
     private DcMotor leftFront;
     private DcMotor leftBack;
@@ -31,7 +31,7 @@ public class TeleOpCenterStage extends LinearOpMode {
     private final double servoRest = 0.9;
     private final double servoLaunch = 0.5;
 
-    private final double wristDown = 0.6;
+    private final double wristDown = 0.62;
 
     private final double wristDownTwo = 0.15;
 
@@ -94,6 +94,9 @@ public class TeleOpCenterStage extends LinearOpMode {
         rightFront.setDirection(DcMotor.Direction.REVERSE);
         rightBack.setDirection(DcMotor.Direction.REVERSE);
 
+        arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        hanger.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
         telemetry.addData("Status", "Initialized");
         telemetry.update();
         // Wait for the game to start (driver presses PLAY)
@@ -107,10 +110,10 @@ public class TeleOpCenterStage extends LinearOpMode {
             lbSpeed = gamepad1.left_stick_y + gamepad1.left_stick_x - gamepad1.right_stick_x;
             rbSpeed = gamepad1.left_stick_y - gamepad1.left_stick_x + gamepad1.right_stick_x;
 
-            leftFront.setPower(lfSpeed * 0.85);
-            leftBack.setPower(lbSpeed * 0.85);
-            rightFront.setPower(rfSpeed * 0.85);
-            rightBack.setPower(rbSpeed * 0.85);
+            leftFront.setPower(lfSpeed * 0.7);
+            leftBack.setPower(lbSpeed * 0.7);
+            rightFront.setPower(rfSpeed * 0.7);
+            rightBack.setPower(rbSpeed * 0.7);
 
             //attachments teleop code below
 
@@ -172,6 +175,26 @@ public class TeleOpCenterStage extends LinearOpMode {
 
                 hanger.setPower(-gamepad2.left_stick_y * 0.95);
                 arm.setPower(-gamepad2.left_stick_y * 0.95);
+
+            if (arm.getCurrentPosition() > 0 && hanger.getCurrentPosition() > 0
+                    && arm.getCurrentPosition() < 2100 && hanger.getCurrentPosition() < 2100) {
+
+                hanger.setPower(-gamepad2.right_stick_y * 0.6);
+                arm.setPower(-gamepad2.right_stick_y * 0.6);
+                wrister.setPosition(0.95);
+
+            } else {
+
+                hanger.setPower(-gamepad2.right_stick_y * 0.6);
+                arm.setPower(-gamepad2.right_stick_y * 0.6);
+                wrister.setPosition(0.95 - (arm.getCurrentPosition() / 3895.88088));
+
+                arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                hanger.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+                //0.95 - (arm.getCurrentPosition() / 3895.88088
+
+            }
 
                 telemetry.addData("Status", "Running");
                 telemetry.addData("Arm Position:", arm.getCurrentPosition());
